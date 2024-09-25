@@ -1,15 +1,15 @@
 # Pwnable
 
 - [simpleoverflow](#simpleoverflow-beginner)
-- [simpleoverwrite](#simpleoverwrite-beginner)
+- [simpleoverwrite](#simpleoverwrite-easy)
 - [BACK](../README.md)
 
 ## simpleoverflow (beginner)
 
-Flagを表示するには、if文の判定が False でなければならない。つまり、`is_admin`が True （0以外の値）であればif文の判定が False になる。
-`buf`と`is_admin`の保存場所が隣り合っていれば、Overflowを引き起こすことで、is_adminの値を0以外の値に上書きできる。問題文からbufは10文字まで保存していることがわかるので、入力時に10文字以上の入力をしてFlagを表示させる。
+バッファオーバーフローで`is_admin`を0以外に上書きし、Flagを表示させた。
+if文の判定が False の時に Flag を表示するため、`is_admin`を True （0以外の値）にできるとよい。`buf`と`is_admin`の格納場所が隣り合っているとき、バッファオーバーフローを引き起こすことで、is_adminの格納場所に True（0以外の値）を上書きできる。問題文からbufは10バイト確保し、入力は最大16バイトだとわかります。よって、10バイト以上の入力を行い、Flagを表示する。
 
-問題文
+問題文：
 
 ``` c
     #include <stdio.h>
@@ -36,10 +36,20 @@ Flagを表示するには、if文の判定が False でなければならない�
     alarm(120);
     }
 ```
+<!--
 
+-->
 ## simpleoverwrite (easy)
 
-a
+この問題を解いています。...
+方針：win()関数を呼び出す。バッファオーバーフローとリターンアドレス？が関係している。
+
+- `win()関数`はflagを表示する。
+- 入力時のbufの最大メモリは10バイト。
+- 入力は最大32バイト。←ここにオーバーフローのリスクあり。
+- 入力されたものの18バイト目以降を16進数で出力している。そのほかに`void *`でポイント型にし、64bit整数にしている。ポイント型はどの型にも変換できるみたい。
+
+問題文：
 
 ```c
 #include <stdint.h>
